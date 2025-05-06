@@ -159,7 +159,7 @@ Route _createRoute({required NewsArticle newsData}) {
 class Page2 extends StatelessWidget {
   final NewsArticle news;
 
-  const Page2({super.key, required this.news});
+  const Page2({  required this.news});
 
   @override
   Widget build(BuildContext context) {
