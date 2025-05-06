@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:news/apikeys/apikeys.dart';
-import 'package:news/model.dart';
+import 'package:news/api/apikeys.dart';
+ import 'package:news/model.dart';
 
 Future<List<NewsArticle>> fetchArticles() async {
   final baseUrlapi = Uri.parse(baseUrl);
