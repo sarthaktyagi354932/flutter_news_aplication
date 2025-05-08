@@ -1,3 +1,4 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:news/apiservices.dart';
@@ -14,11 +15,22 @@ class Screen extends StatefulWidget {
 
 class _ScreenState extends State<Screen> {
   late Future<List<NewsArticle>> _newsFuture;
+  final remotrConfig = FirebaseRemoteConfig.instance;
 
   @override
   void initState() {
     super.initState();
+    _initializeAsync();
+  }
+
+  Future<void> _initializeAsync() async {
     _newsFuture = fetchArticles();
+    await remotrConfig
+        .setDefaults({"name": "default_value", "key": "keyvalue"});
+    await remotrConfig.setConfigSettings(RemoteConfigSettings(
+        fetchTimeout: Duration(seconds: 10),
+        minimumFetchInterval: const Duration(seconds: 10)));
+    await remotrConfig.fetchAndActivate();
   }
 
   Future<void> _handleRefresh() async {
@@ -86,9 +98,8 @@ class _ScreenState extends State<Screen> {
                                       ),
                                     );
                                   },
-                                  errorBuilder:
-                                      (context, error, stackTrace) =>
-                                          Image.asset(
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Image.asset(
                                     'assets/images/download.png',
                                     fit: BoxFit.cover,
                                     width: 70,
@@ -148,8 +159,7 @@ Route _createRoute({required NewsArticle newsData}) {
       const end = Offset.zero;
       const curve = Curves.ease;
 
-      var tween =
-          Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
       return SlideTransition(position: animation.drive(tween), child: child);
     },
@@ -159,7 +169,7 @@ Route _createRoute({required NewsArticle newsData}) {
 class Page2 extends StatelessWidget {
   final NewsArticle news;
 
-  const Page2({  required this.news});
+  const Page2({required this.news});
 
   @override
   Widget build(BuildContext context) {
