@@ -26,7 +26,7 @@ class _ScreenState extends State<Screen> {
   Future<void> _initializeAsync() async {
     _newsFuture = fetchArticles();
     await remotrConfig
-        .setDefaults({"name": "default_value", "key": "keyvalue"});
+        .setDefaults({"name": "default_value", "key": "keyvaglue"});
     await remotrConfig.setConfigSettings(RemoteConfigSettings(
         fetchTimeout: Duration(seconds: 10),
         minimumFetchInterval: const Duration(seconds: 10)));
